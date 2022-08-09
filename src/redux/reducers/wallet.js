@@ -1,10 +1,16 @@
-import { WALLET } from '../actions/index';
+import { FETCH_SUCCESS } from '../actions/index';
 
-const INITAL_STATE = {};
+const INITAL_STATE = {
+  currencies: [],
+};
 
 const walletReducer = (state = INITAL_STATE, action) => {
   switch (action.type) {
-  case WALLET:
+  case FETCH_SUCCESS:
+    return {
+      ...state,
+      currencies: action.filterCurrencies,
+    };
   default:
     return state;
   }
