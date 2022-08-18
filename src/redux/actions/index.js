@@ -25,6 +25,11 @@ export const saveExpenses = (expenses, data) => ({
   expenses,
   data,
 });
+export const DELETE_EXPENSE = 'DELETE_EXPENSE';
+export const deleteExpense = (expenses) => ({
+  type: DELETE_EXPENSE,
+  expenses,
+});
 
 export function getCurrencies() {
   return async (dispatch) => {
