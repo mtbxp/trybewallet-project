@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getExpenses, getCurrencies } from '../redux/actions';
+import { getCurrencies, getExpenses } from '../redux/actions';
 
 class WalletForm extends Component {
   constructor() {
@@ -34,7 +34,7 @@ class WalletForm extends Component {
       id: prevState.id + 1,
       value: '',
       description: '',
-      tag: 'Lazer',
+      tag: '',
       method: 'Dinheiro',
       currency: 'USD',
     }));
