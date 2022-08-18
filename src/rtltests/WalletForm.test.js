@@ -1,4 +1,5 @@
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
 import Wallet from '../pages/Wallet';
 import { renderWithRouterAndRedux } from '../tests/helpers/renderWith';
@@ -13,7 +14,7 @@ it('Verifica se o header foi renderizado', () => {
   expect(currency).toBeInTheDocument();
 });
 
-it('Verifica se o "WalletForm" é renderizado', () => {
+it('Verifica se o "WalletForm" é renderizado', async () => {
   renderWithRouterAndRedux(<Wallet />);
 
   const valueInput = screen.getByTestId('value-input');
@@ -30,4 +31,17 @@ it('Verifica se o "WalletForm" é renderizado', () => {
   expect(methodInput).toBeInTheDocument();
   expect(tagInput).toBeInTheDocument();
   expect(addExpense).toBeInTheDocument();
+
+  userEvent.type(valueInput, 1);
+  userEvent.type(descriptionInput, 'teste');
+  userEvent.selectOptions(tagInput, 'Transporte');
+  userEvent.click(addExpense);
+
+  const transporte = await screen.findByText('Transporte');
+  const teste = await screen.findByText('teste');
+  expect(transporte).toBeInTheDocument();
+  const deleteBtn = await screen.findByTestId('delete-btn');
+  expect(deleteBtn).toBeInTheDocument();
+  userEvent.click(deleteBtn);
+  expect(teste).not.toBeInTheDocument();
 });
