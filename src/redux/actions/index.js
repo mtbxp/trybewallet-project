@@ -1,6 +1,9 @@
+import fetchApi from '../../API/fetchApi';
+
 export const LOGIN = 'LOGIN';
 export const FETCH_SUCCESS = 'FETCH_SUCCESS';
 export const FETCH_FAIL = 'FETCH_FAIL';
+export const GET_EXPENSES = 'GET_EXPENSES';
 
 export const loginInput = (email) => ({
   type: LOGIN,
@@ -17,17 +20,27 @@ export const fetchFail = (error) => ({
   error,
 });
 
+export const saveExpenses = (expenses, data) => ({
+  type: GET_EXPENSES,
+  expenses,
+  data,
+});
+
 export function getCurrencies() {
-  return async (dispacth) => {
+  return async (dispatch) => {
     try {
-      const url = 'https://economia.awesomeapi.com.br/json/all';
-      const response = await fetch(url);
-      const data = await response.json();
+      const data = await fetchApi();
       const currencies = Object.keys(data);
       const filterCurrencies = currencies.filter((currencie) => currencie !== 'USDT');
-      dispacth(fetchSuccess(filterCurrencies));
+      dispatch(fetchSuccess(filterCurrencies));
     } catch (error) {
-      dispacth(fetchFail(error));
+      dispatch(fetchFail(error));
     }
+  };
+}
+export function getExpenses(state) {
+  return async (dispatch) => {
+    const data = await fetchApi();
+    dispatch(saveExpenses(state, data));
   };
 }
